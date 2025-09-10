@@ -2,11 +2,11 @@
 ---- init.lua ------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-require('lua/vimrc')        -- basic options
-require('lua/statusline')   -- statusline
-require('lua/tabs')         -- tabs + tab binds
+require('vimrc')        -- basic options
+require('statusline')   -- statusline
+require('tabs')         -- tabs + tab binds
 
-require('lua/lazy')         -- plugins
+require('lazy-plugins')         -- plugins
 
 -- save
 vim.keymap.set("n", '<C-s>', ":w<CR>", { silent = true })
@@ -57,7 +57,11 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 ------------------------
 ---- specific ----------
 ------------------------
+-- rust
 vim.keymap.set('n', '<leader>rf', ':RustFmt<CR>', { silent = true })
+vim.keymap.set('n', '<leader>rt', ':RustTest<CR>', { silent = true })
+vim.keymap.set('n', '<leader>rT', ':RustTest!<CR>', { silent = true })
+vim.keymap.set('n', '<leader>rr', ':RustRun<CR>', { silent = true })
 
 
 
