@@ -17,20 +17,33 @@ vim.keymap.set("n", "gh", vim.lsp.buf.hover, { buffer = bufnr, desc = "LSP hover
 ------------------------
 ---- diagnostic stuff --
 ------------------------
+virtual_lines_enabled = false -- default
+virtual_lines_enabled_config = { current_line = false, highlight_whole_line = true, }
+virtual_lines_disabled_config = false
+
+virtual_text_enabled = true   -- default
+virtual_text_enabled_config = true
+virtual_text_disabled_config = false
+
 vim.diagnostic.config({
-    virtual_text = false,
-    virtual_lines = {
-        current_line = true,
-        highlight_whole_line = true,
-    },
+    virtual_text = virtual_text_enabled and virtual_text_enabled_config or virtual_text_disabled_config,
+    virtual_lines = virtual_lines_enabled and virtual_lines_enabled_config or virtual_lines_disabled_config,
     signs = true,
     underline = true,
     --update_in_insert = true,
     severity_sort = true,
 })
+
+vim.keymap.set('n', '<C-i>', function()
+    virtual_text_enabled = not virtual_text_enabled
+    local conf = virtual_text_enabled and virtual_text_enabled_config or virtual_text_disabled_config
+    vim.diagnostic.config({ virtual_text = conf})
+end, { desc = 'Toggle diagnostic virtual_text' })
+
 vim.keymap.set('n', '<C-l>', function()
-    local new_config = not vim.diagnostic.config().virtual_lines
-    vim.diagnostic.config({ virtual_lines = new_config })
+    virtual_lines_enabled = not virtual_lines_enabled
+    local conf = virtual_lines_enabled and virtual_lines_enabled_config or virtual_lines_disabled_config
+    vim.diagnostic.config({ virtual_lines = conf})
 end, { desc = 'Toggle diagnostic virtual_lines' })
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic" })
@@ -63,5 +76,27 @@ vim.keymap.set('n', '<leader>rt', ':RustTest<CR>', { silent = true })
 vim.keymap.set('n', '<leader>rT', ':RustTest!<CR>', { silent = true })
 vim.keymap.set('n', '<leader>rr', ':RustRun<CR>', { silent = true })
 
+-- Path to session file in current directory
+local function get_session_path()
+    return vim.fn.getcwd() .. "/.session.vim"
+end
 
+-- Save + quit
+vim.keymap.set("n", "<leader>gg", function()
+    local sessionfile = get_session_path()
+    vim.cmd("mksession! " .. vim.fn.fnameescape(sessionfile))
+    vim.cmd("qa")
+end, { noremap = true, silent = true })
 
+-- notify if session file in path
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        if vim.fn.argc() == 0 then
+            local sessionfile = get_session_path()
+            if vim.fn.filereadable(sessionfile) == 1 then
+                print(string.format('Note: Session in this dir found: %s', sessionfile))
+                --vim.cmd("silent source " .. vim.fn.fnameescape(sessionfile))
+            end
+        end
+    end,
+})

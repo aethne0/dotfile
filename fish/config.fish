@@ -12,11 +12,12 @@ if status is-interactive
 end
 
 alias e 'eza -la'
-alias ls 'eza -i'
+alias ls 'eza'
 alias c clear
-alias vim nvim
+
 alias vi nvim
-alias v nvim
+alias vis 'nvim -S .session.vim'
+
 alias ip 'ip -c'
 alias ff 'fastfetch'
 
