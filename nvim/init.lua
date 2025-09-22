@@ -9,10 +9,10 @@ require('tabs')         -- tabs + tab binds
 require('lazy-plugins')         -- plugins
 
 -- save
-vim.keymap.set("n", '<C-s>', ":w<CR>", { silent = true })
+vim.keymap.set('n', '<C-s>', ':w<CR>', { silent = true })
 -- lsp binds
-vim.keymap.set("n", "K", "<Nop>", { buffer = bufnr })
-vim.keymap.set("n", "gh", vim.lsp.buf.hover, { buffer = bufnr, desc = "LSP hover" })
+vim.keymap.set('n', 'K', '<Nop>', { buffer = bufnr })
+-- vim.keymap.set('n', 'gh', vim.lsp.buf.hover, { buffer = bufnr, desc = 'LSP hover' })
 
 ------------------------
 ---- diagnostic stuff --
@@ -67,15 +67,21 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     callback = apply_diagnostic_virtual_line_hl,
 })
 
+
 ------------------------
 ---- specific ----------
 ------------------------
 -- rust
+-- todo: hide these if i aint in rust haha
 vim.keymap.set('n', '<leader>rf', ':RustFmt<CR>', { silent = true })
 vim.keymap.set('n', '<leader>rt', ':RustTest<CR>', { silent = true })
 vim.keymap.set('n', '<leader>rT', ':RustTest!<CR>', { silent = true })
 vim.keymap.set('n', '<leader>rr', ':RustRun<CR>', { silent = true })
 
+
+------------------------
+---- session -----------
+------------------------
 -- Path to session file in current directory
 local function get_session_path()
     return vim.fn.getcwd() .. "/.session.vim"

@@ -24,10 +24,12 @@ alias ff 'fastfetch'
 alias fff "source ~/.config/fish/config.fish"
 alias fft "tmux source-file ~/.config/tmux/tmux.conf"
 
+alias hunspell "hunspell -d en_US"
+
 alias sun "https https://aa.usno.navy.mil/api/rstt/oneday?date=(date +%F)&coords=43.6,79.4&tz=-4"
 alias moon "https https://aa.usno.navy.mil/api/moon/phases/date?date=(date +%F)&tz=-4&nump=4"
 alias weather 'curl https://www.wttr.in/43.655,-79.354'
 
 fish_vi_key_bindings
 
-
+export PATH="$PATH:$HOME/bin"

@@ -25,6 +25,27 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     spec = {
 
+        { "catppuccin/nvim", name = "catppuccin", priority = 1000,
+            config = function()
+                vim.cmd.colorscheme 'catppuccin-macchiato'
+
+                local nr_bg = '#333333'
+                vim.api.nvim_set_hl(0, 'LineNr', { fg = '#888888', bg = nr_bg })
+                vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#a0a030', bg = nr_bg, bold = true })
+            end
+        },
+
+        {
+            "nvim-treesitter/nvim-treesitter",
+            build = ":TSUpdate",
+            config = function()
+            require("nvim-treesitter.configs").setup {
+                ensure_installed = { "elixir", "heex", "eex" },
+                highlight = { enable = true },
+            }
+            end,
+        },
+
         -- lsp
         { 
             'mason-org/mason-lspconfig.nvim',
@@ -66,7 +87,10 @@ require("lazy").setup({
 
                 sources = cmp.config.sources({
                   { name = "nvim_lsp" },
+                  { name = "nvim_lua" },
                   { name = "luasnip" },
+                  { name = "path" },
+                  { name = "buffer" },
                 }),
 
                 formatting = {
@@ -156,12 +180,6 @@ require("lazy").setup({
             }
         },
 
-        -- lsp bottom-right notifs
-        { 
-            'j-hui/fidget.nvim',
-            opts = {},
-        },
-
         { 
             'unblevable/quick-scope',
         },
@@ -171,6 +189,12 @@ require("lazy").setup({
             config = function() 
                 require('marks').setup()
             end
+        },
+
+        { -- note: asd
+            'folke/todo-comments.nvim',
+            dependencies = { 'nvim-lua/plenary.nvim' },
+            opts = { signs = false },
         },
 
         {
@@ -191,7 +215,82 @@ require("lazy").setup({
                     desc = "Buffer Local Keymaps (which-key)",
                 },
             },
-        }
+        },
+
+        { 
+            'nvim-neo-tree/neo-tree.nvim',
+            dependencies = {
+                'nvim-lua/plenary.nvim',
+                'MunifTanjim/nui.nvim',
+            },
+            lazy = false,
+            config = function()
+                require('neo-tree').setup()
+                vim.keymap.set("n", '<leader>f', ":Neotree<CR>", { silent = true })
+            end
+        },
+
+        --[[
+        {
+            'nvimdev/lspsaga.nvim',
+            config = function()
+                require('lspsaga').setup({})
+                 --vim.keymap.set('n', 'gh', ':Lspsaga hover_doc<CR>', { buffer = bufnr, desc = 'LSP hover' })
+                vim.keymap.set('n', 'gh', ':lua vim.lsp.buf.hover()<CR>', { buffer = bufnr, desc = 'LSP hover' })
+                vim.keymap.set('n', 'gdt', ':tab split | Lspsaga goto_definition<CR>', { buffer = bufnr, desc = 'Goto definition - new tab' })
+                vim.keymap.set('n', 'gdd', ':Lspsaga goto_definition<CR>', { buffer = bufnr, desc = 'Goto definition - current' })
+                vim.keymap.set('n', 'gdp', ':Lspsaga peek_definition<CR>', { buffer = bufnr, desc = 'Goto definition - peek' })
+            end,
+        },
+        ]]
+
+        {
+            "folke/noice.nvim",
+
+            event = "VeryLazy",
+            opts = { },
+            dependencies = {
+                "MunifTanjim/nui.nvim",
+                "rcarriga/nvim-notify",
+            },
+
+            config = function()
+                require('noice').setup({
+                    cmdline = { enabled = false, },
+                    messages = { enabled = false, },
+                    popupmenu = { enabled = false, },
+                    notify = { enabled = false, },
+
+                    lsp = {
+                        override = {
+                            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                            ["vim.lsp.util.stylize_markdown"] = true,
+                            ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+                        },
+
+                        progress = {
+                            enabled = true,
+                            -- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
+                            -- See the section on formatting for more details on how to customize.
+                            --- @type NoiceFormat|string
+                            format = "lsp_progress",
+                            --- @type NoiceFormat|string
+                            format_done = "lsp_progress_done",
+                            throttle = 1000 / 30, -- frequency to update lsp progress message
+                            view = "mini",
+                        },
+                    },
+
+                    presets = {
+                        bottom_search = true, -- use a classic bottom cmdline for search
+                        command_palette = false, -- position the cmdline and popupmenu together
+                        long_message_to_split = true, -- long messages will be sent to a split
+                        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                        lsp_doc_border = true, -- add a border to hover docs and signature help
+                    },
+                })
+            end
+        },
 
 
     },
