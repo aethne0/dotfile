@@ -11,8 +11,8 @@ if status is-interactive
     #    neofetch
 end
 
-alias e 'eza -la'
-alias ls 'eza'
+alias e 'eza -bla'
+alias ls 'eza -b'
 alias c clear
 
 alias vi nvim
@@ -29,6 +29,8 @@ alias hunspell "hunspell -d en_US"
 alias sun "https https://aa.usno.navy.mil/api/rstt/oneday?date=(date +%F)&coords=43.6,79.4&tz=-4"
 alias moon "https https://aa.usno.navy.mil/api/moon/phases/date?date=(date +%F)&tz=-4&nump=4"
 alias weather 'curl https://www.wttr.in/43.655,-79.354'
+
+alias cal "cal -c 1 -n 2"
 
 fish_vi_key_bindings
 

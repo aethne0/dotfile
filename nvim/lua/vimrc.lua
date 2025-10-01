@@ -57,7 +57,7 @@ vim.keymap.set('n', 'gd', ':tab split | lua vim.lsp.buf.definition()<CR>', { buf
 --vim.keymap.set('n', 'gdd', ':lua vim.lsp.buf.definition()<CR>', { buffer = bufnr, desc = 'Goto definition - current' })
 -- TODO:
 -- vim.keymap.set('n', 'gdp', ':Lspsaga peek_definition<CR>', { buffer = bufnr, desc = 'Goto definition - peek' })
-vim.keymap.set('n', 'gD', ':tab split | lua vim.lsp.buf.declaration()<CR>', { buffer = bufnr, desc = 'Goto definition - new tab' })
+vim.keymap.set('n', 'gD', 'lua vim.lsp.buf.declaration()<CR>', { buffer = bufnr, desc = 'Goto definition - same tab' })
 --vim.keymap.set('n', 'gDd', ':lua vim.lsp.buf.declaration()<CR>', { buffer = bufnr, desc = 'Goto definition - current' })
 -- TODO:
 -- vim.keymap.set('n', 'gDp', ':Lspsaga peek_definition<CR>', { buffer = bufnr, desc = 'Goto definition - peek' })

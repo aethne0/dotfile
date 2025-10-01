@@ -31,9 +31,11 @@ require("lazy").setup({
 
                 local nr_bg = '#333333'
                 vim.api.nvim_set_hl(0, 'LineNr', { fg = '#888888', bg = nr_bg })
-                vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#a0a030', bg = nr_bg, bold = true })
+                vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#cccc00', bg = nr_bg, bold = true })
             end
         },
+
+        { "bluz71/vim-moonfly-colors", name = "moonfly", },
 
         {
             "nvim-treesitter/nvim-treesitter",
@@ -165,46 +167,10 @@ require("lazy").setup({
             end,
         },
 
-
-        {
-            'lewis6991/gitsigns.nvim',
-            -- this is various git integration, including the left-side symbols
-            opts = {
-                signs = {
-                    add = { text = '+' },
-                    change = { text = '~' },
-                    delete = { text = '_' },
-                    topdelete = { text = '‾' },
-                    changedelete = { text = '~' },
-                }
-            }
-        },
-
-        { 
-            'unblevable/quick-scope',
-        },
-
-        {
-            'chentoast/marks.nvim',
-            config = function() 
-                require('marks').setup()
-            end
-        },
-
-        { -- note: asd
-            'folke/todo-comments.nvim',
-            dependencies = { 'nvim-lua/plenary.nvim' },
-            opts = { signs = false },
-        },
-
         {
             "folke/which-key.nvim",
             event = "VeryLazy",
-            opts = {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            },
+            opts = { },
             keys = {
                 {
                     "<leader>?",
@@ -229,20 +195,6 @@ require("lazy").setup({
                 vim.keymap.set("n", '<leader>f', ":Neotree<CR>", { silent = true })
             end
         },
-
-        --[[
-        {
-            'nvimdev/lspsaga.nvim',
-            config = function()
-                require('lspsaga').setup({})
-                 --vim.keymap.set('n', 'gh', ':Lspsaga hover_doc<CR>', { buffer = bufnr, desc = 'LSP hover' })
-                vim.keymap.set('n', 'gh', ':lua vim.lsp.buf.hover()<CR>', { buffer = bufnr, desc = 'LSP hover' })
-                vim.keymap.set('n', 'gdt', ':tab split | Lspsaga goto_definition<CR>', { buffer = bufnr, desc = 'Goto definition - new tab' })
-                vim.keymap.set('n', 'gdd', ':Lspsaga goto_definition<CR>', { buffer = bufnr, desc = 'Goto definition - current' })
-                vim.keymap.set('n', 'gdp', ':Lspsaga peek_definition<CR>', { buffer = bufnr, desc = 'Goto definition - peek' })
-            end,
-        },
-        ]]
 
         {
             "folke/noice.nvim",
@@ -290,6 +242,46 @@ require("lazy").setup({
                     },
                 })
             end
+        },
+
+        {
+            'lewis6991/gitsigns.nvim',
+            -- this is various git integration, including the left-side symbols
+            opts = {
+                signs = {
+                    add = { text = '+' },
+                    change = { text = '~' },
+                    delete = { text = '_' },
+                    topdelete = { text = '‾' },
+                    changedelete = { text = '~' },
+                }
+            }
+        },
+
+        { 
+            'unblevable/quick-scope',
+        },
+
+        {
+            'chentoast/marks.nvim',
+            config = function() 
+                require('marks').setup()
+            end
+        },
+
+        {
+            -- todo write a better one
+            'folke/todo-comments.nvim',
+            dependencies = { 'nvim-lua/plenary.nvim' },
+            opts = { signs = false },
+        },
+
+        {
+            'wellle/context.vim',
+            config = function()
+                require'context'.setup{
+                }
+            end,
         },
 
 
